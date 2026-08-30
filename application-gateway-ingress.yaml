@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: telemetry-api-ingress
+  annotations:
+    appgw.ingress.kubernetes.io/health-probe-path: /docs
+spec:
+  ingressClassName: azure-application-gateway
+  rules:
+    - host: api.aks.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: telemetry-service
+                port:
+                  number: 8080
+    - host: api.dny-ai.store
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: telemetry-service
+                port:
+                  number: 8080
+    - host: ui.dny-ai.store
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: axion-ui
+                port:
+                  number: 8080
